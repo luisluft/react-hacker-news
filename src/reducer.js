@@ -19,6 +19,16 @@ const reducer = (state, action) => {
         numberPages: action.payload.numberPages,
       };
       break;
+    case REMOVE_STORY:
+      const filteredHits = state.hits.filter(
+        (hit) => hit.objectID !== action.payload
+      );
+
+      return {
+        ...state,
+        hits: filteredHits,
+      };
+      break;
 
     default:
       throw new Error(`no matching reducer for action type ${action.type}`);

@@ -29,6 +29,13 @@ const reducer = (state, action) => {
         hits: filteredHits,
       };
       break;
+    case HANDLE_SEARCH:
+      return {
+        ...state,
+        query: action.payload,
+        page: 0,
+      };
+      break;
 
     default:
       throw new Error(`no matching reducer for action type ${action.type}`);

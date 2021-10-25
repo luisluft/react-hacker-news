@@ -10,7 +10,6 @@ const reducer = (state, action) => {
   switch (action.type) {
     case SET_LOADING:
       return { ...state, loading: true };
-      break;
     case SET_STORIES:
       return {
         ...state,
@@ -18,7 +17,6 @@ const reducer = (state, action) => {
         hits: action.payload.hits,
         numberPages: action.payload.numberPages,
       };
-      break;
     case REMOVE_STORY:
       const filteredHits = state.hits.filter(
         (hit) => hit.objectID !== action.payload
@@ -28,18 +26,31 @@ const reducer = (state, action) => {
         ...state,
         hits: filteredHits,
       };
-      break;
     case HANDLE_SEARCH:
       return {
         ...state,
         query: action.payload,
         page: 0,
       };
+    case HANDLE_PAGE:
+      if (action.payload === "decrease") {
+        let previousPage = state.page - 1;
+        if (previousPage < 0) previousPage = state.numberPages - 1;
+
+        return { ...state, page: previousPage };
+      }
+
+      if (action.payload === "increase") {
+        let nextPage = state.page + 1;
+        if (nextPage > state.numberPages - 1) nextPage = 0;
+
+        return { ...state, page: nextPage };
+      }
+
       break;
 
     default:
       throw new Error(`no matching reducer for action type ${action.type}`);
-      break;
   }
 };
 export default reducer;
